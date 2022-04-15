@@ -5,13 +5,20 @@ from sklearn.compose import make_column_transformer
 from sklearn.preprocessing import MinMaxScaler, OneHotEncoder
 import numpy as np
 
+MODEL_PATH = os.path.join(Path(__file__).parent, "model")
+
 def rmse(y_true, y_pred):
     return K.sqrt(K.mean(K.square(y_pred - y_true)))
 
-model = models.load_model("./tensorflow", custom_objects={"rmse": rmse, "Adam": adam_v2})
+model = models.load_model(
+    MODEL_PATH,
+    custom_objects={
+        "rmse": rmse,
+        "Adam": adam_v2
+    }
+)
 
-X_train = np.empty((1, 181)) #something to make an empty 1, 181 array i forgot syntax lmao
-# print(X_train)
+X_train = np.empty((1, 181))
 
 transformer = make_column_transformer(
     (MinMaxScaler(), 
